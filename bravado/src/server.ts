@@ -1,13 +1,9 @@
 import { MikroORM } from '@mikro-orm/core';
 
-import { __prod__ } from './constants';
-import { Post } from './entities/Post';
+import ormConfig from '../mikro-orm.config';
 
 (async function () {
-  const orm = await MikroORM.init({
-    entities: [Post],
-    dbName: 'polyrant',
-    type: 'postgresql',
-    debug: !__prod__,
-  });
+  const orm = await MikroORM.init(ormConfig);
+
+  orm.getMigrator().up();
 })();
