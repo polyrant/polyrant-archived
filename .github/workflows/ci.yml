@@ -48,4 +48,6 @@ jobs:
           yarn
 
       - name: Run bravado's tests 🧪
-        run: yarn test
+        run: |
+          cd bravado
+          yarn test
