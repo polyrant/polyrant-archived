@@ -8,7 +8,7 @@ import { buildSchema } from 'type-graphql';
 import ormConfig from '../mikro-orm.config';
 import { PingResolver } from './resolvers/ping';
 
-(async function () {
+const main = async () => {
   const { SERVER_URI, PORT } = process.env;
 
   const orm = await MikroORM.init(ormConfig);
@@ -27,4 +27,6 @@ import { PingResolver } from './resolvers/ping';
   app.listen(2003, () => {
     console.log(`[Server]: Started on ${SERVER_URI}:${PORT}/graphql`);
   });
-})().catch((err) => console.error(err));
+};
+
+main().catch((err) => console.error(err));
