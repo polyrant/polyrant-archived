@@ -44,8 +44,8 @@ jobs:
 
       - name: Install bravado's dependencies 👨🏻‍💻
         run: |
-        cd bravado
-        yarn
+          cd bravado
+          yarn
 
       - name: Run bravado's tests 🧪
         run: yarn test
