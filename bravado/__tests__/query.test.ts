@@ -3,7 +3,7 @@ import { createTestClient } from 'apollo-server-testing';
 import gql from 'graphql-tag';
 import { buildSchema } from 'type-graphql';
 
-import { PingResolver } from '../src/resolvers/ping';
+import { PingResolver, PostResolver } from '../src/resolvers';
 
 const PING = gql`
   {
@@ -11,14 +11,32 @@ const PING = gql`
   }
 `;
 
+const POSTS = gql`
+  {
+    posts {
+      content
+    }
+  }
+`;
+
+const POST = gql`
+  {
+    post(id: 1) {
+      content
+    }
+  }
+`;
+
 const server = async () => {
-  return new ApolloServer({
+  const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver],
+      resolvers: [PingResolver, PostResolver],
     }),
-    mockEntireSchema: false,
+    mockEntireSchema: true,
     mocks: true,
   });
+
+  return server;
 };
 
 describe('queries', () => {
@@ -26,6 +44,20 @@ describe('queries', () => {
     const { query } = createTestClient(await server());
 
     const res = await query({ query: PING });
+    expect(res).toMatchSnapshot();
+  });
+
+  test('posts', async () => {
+    const { query } = createTestClient(await server());
+
+    const res = await query({ query: POSTS });
+    expect(res).toMatchSnapshot();
+  });
+
+  test('post', async () => {
+    const { query } = createTestClient(await server());
+
+    const res = await query({ query: POST });
     expect(res).toMatchSnapshot();
   });
 });

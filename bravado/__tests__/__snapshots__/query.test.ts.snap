@@ -3,7 +3,46 @@
 exports[`queries ping 1`] = `
 Object {
   "data": Object {
-    "ping": "Pong!",
+    "ping": "Hello World",
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`queries post 1`] = `
+Object {
+  "data": Object {
+    "post": Object {
+      "content": "Hello World",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`queries posts 1`] = `
+Object {
+  "data": Object {
+    "posts": Array [
+      Object {
+        "content": "Hello World",
+      },
+      Object {
+        "content": "Hello World",
+      },
+    ],
   },
   "errors": undefined,
   "extensions": undefined,

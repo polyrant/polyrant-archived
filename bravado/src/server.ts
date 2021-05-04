@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 require('dotenv').config();
 
 import { ApolloServer } from 'apollo-server-express';
@@ -5,21 +6,22 @@ import express from 'express';
 import { MikroORM } from '@mikro-orm/core';
 import { buildSchema } from 'type-graphql';
 
-import ormConfig from '../mikro-orm.config';
-import { PingResolver } from './resolvers/ping';
+import { prodOrmConfig } from '../mikro-orm.config';
+import { PingResolver, PostResolver } from './resolvers';
 
 const main = async () => {
   const { SERVER_URI, PORT } = process.env;
 
-  const orm = await MikroORM.init(ormConfig);
+  const orm = await MikroORM.init(prodOrmConfig);
   orm.getMigrator().up();
 
   const app = express();
 
   const apollo = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver],
+      resolvers: [PingResolver, PostResolver],
     }),
+    context: () => ({ em: orm.em }),
   });
 
   apollo.applyMiddleware({ app });
