@@ -6,13 +6,13 @@ import express from 'express';
 import { MikroORM } from '@mikro-orm/core';
 import { buildSchema } from 'type-graphql';
 
-import { prodOrmConfig } from '../mikro-orm.config';
+import ormConfig from '../mikro-orm.config';
 import { PingResolver, PostResolver } from './resolvers';
 
 const main = async () => {
   const { SERVER_URI, PORT } = process.env;
 
-  const orm = await MikroORM.init(prodOrmConfig);
+  const orm = await MikroORM.init(ormConfig);
   orm.getMigrator().up();
 
   const app = express();

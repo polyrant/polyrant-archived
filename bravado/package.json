@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/server.ts",
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "create:migrate": "mikro-orm migration:create"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
