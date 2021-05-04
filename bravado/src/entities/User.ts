@@ -20,6 +20,14 @@ export class User {
   @Property({ type: 'text', unique: true })
   username!: string;
 
+  @Field()
+  @Property({ type: 'text' })
+  name!: string;
+
+  @Field()
+  @Property({ type: 'text' })
+  bio!: string;
+
   // Remove property from GQL schema by removing field decorator
   @Property({ type: 'text' })
   password!: string;
