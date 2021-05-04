@@ -21,12 +21,12 @@ export class User {
   username!: string;
 
   @Field()
-  @Property({ type: 'text' })
-  name!: string;
+  @Property({ type: 'text', default: '', nullable: true })
+  name: string;
 
   @Field()
-  @Property({ type: 'text' })
-  bio!: string;
+  @Property({ type: 'text', default: '', nullable: true })
+  bio: string;
 
   // Remove property from GQL schema by removing field decorator
   @Property({ type: 'text' })

@@ -16,3 +16,67 @@ Object {
   },
 }
 `;
+
+exports[`mutations login 1`] = `
+Object {
+  "data": Object {
+    "login": Object {
+      "errors": Array [
+        Object {
+          "message": "Hello World",
+        },
+        Object {
+          "message": "Hello World",
+        },
+      ],
+      "user": Object {
+        "bio": "Hello World",
+        "createdAt": "Hello World",
+        "name": "Hello World",
+        "updatedAt": "Hello World",
+        "username": "Hello World",
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`mutations register 1`] = `
+Object {
+  "data": Object {
+    "register": Object {
+      "errors": Array [
+        Object {
+          "field": "Hello World",
+          "message": "Hello World",
+        },
+        Object {
+          "field": "Hello World",
+          "message": "Hello World",
+        },
+      ],
+      "user": Object {
+        "bio": "Hello World",
+        "createdAt": "Hello World",
+        "name": "Hello World",
+        "updatedAt": "Hello World",
+        "username": "Hello World",
+      },
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

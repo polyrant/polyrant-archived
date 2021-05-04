@@ -3,7 +3,7 @@ import { createTestClient } from 'apollo-server-testing';
 import gql from 'graphql-tag';
 import { buildSchema } from 'type-graphql';
 
-import { PingResolver, PostResolver } from '../src/resolvers';
+import { PingResolver, PostResolver, UserResolver } from '../src/resolvers';
 
 const PING = gql`
   {
@@ -30,7 +30,7 @@ const POST = gql`
 const server = async () => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver, PostResolver],
+      resolvers: [PingResolver, PostResolver, UserResolver],
     }),
     mockEntireSchema: true,
     mocks: true,

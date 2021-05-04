@@ -7,7 +7,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { buildSchema } from 'type-graphql';
 
 import ormConfig from '../mikro-orm.config';
-import { PingResolver, PostResolver } from './resolvers';
+import { PingResolver, PostResolver, UserResolver } from './resolvers';
 
 const main = async () => {
   const { SERVER_URI, PORT } = process.env;
@@ -19,7 +19,8 @@ const main = async () => {
 
   const apollo = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver, PostResolver],
+      resolvers: [PingResolver, PostResolver, UserResolver],
+      validate: false,
     }),
     context: () => ({ em: orm.em }),
   });

@@ -3,7 +3,7 @@ import { createTestClient } from 'apollo-server-testing';
 import gql from 'graphql-tag';
 import { buildSchema } from 'type-graphql';
 
-import { PingResolver, PostResolver } from '../src/resolvers';
+import { PingResolver, PostResolver, UserResolver } from '../src/resolvers';
 
 const CREATE_POST = gql`
   mutation {
@@ -19,10 +19,46 @@ const DELETE_POST = gql`
   }
 `;
 
+const REGISTER = gql`
+  mutation {
+    register(input: { username: "test", password: "12345678" }) {
+      errors {
+        field
+        message
+      }
+
+      user {
+        username
+        bio
+        name
+        updatedAt
+        createdAt
+      }
+    }
+  }
+`;
+
+const LOGIN = gql`
+  mutation {
+    login(input: { username: "test", password: "12345678" }) {
+      user {
+        username
+        bio
+        name
+        createdAt
+        updatedAt
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 const server = async () => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PingResolver, PostResolver],
+      resolvers: [PingResolver, PostResolver, UserResolver],
     }),
     mockEntireSchema: true,
     mocks: true,
@@ -44,5 +80,19 @@ describe('mutations', () => {
 
     const res = await mutate({ mutation: DELETE_POST });
     expect(typeof res.data.deletePost === 'boolean').toBeTruthy();
+  });
+
+  test('register', async () => {
+    const { mutate } = createTestClient(await server());
+
+    const res = await mutate({ mutation: REGISTER });
+    expect(res).toMatchSnapshot();
+  });
+
+  test('login', async () => {
+    const { mutate } = createTestClient(await server());
+
+    const res = await mutate({ mutation: LOGIN });
+    expect(res).toMatchSnapshot();
   });
 });
