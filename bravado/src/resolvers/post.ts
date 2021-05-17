@@ -1,43 +1,49 @@
-// import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { Post } from 'src/entities';
+import { MyContext, Args } from '../types';
 
-// import { Post } from '../entities';
-// import { MyContext } from '../types';
+export default {
+  /************************* Queries *************************/
 
-// @Resolver()
-// export class PostResolver {
-//   @Query(() => [Post])
-//   posts(@Ctx() { em }: MyContext): Promise<Post[]> {
-//     return em.find(Post, {});
-//   }
+  Query: {
+    // Get all posts
+    posts: async (_: void, __: void, { em }: MyContext): Promise<Post[]> => {
+      return em.find(Post, {});
+    },
 
-//   @Query(() => Post, { nullable: true })
-//   post(
-//     @Arg('id', () => Int) id: number,
-//     @Ctx() { em }: MyContext
-//   ): Promise<Post | null> {
-//     return em.findOne(Post, { id });
-//   }
+    // Get a post
+    post: (_: void, { id }: Args, { em }: MyContext): Promise<Post | null> => {
+      return em.findOne(Post, { id });
+    },
+  },
 
-//   @Mutation(() => Post)
-//   async createPost(
-//     @Arg('content') content: string,
-//     @Ctx() { em }: MyContext
-//   ): Promise<Post> {
-//     const post = em.create(Post, { content });
-//     await em.persistAndFlush(post);
-//     return post;
-//   }
+  /************************* Mutations *************************/
 
-//   @Mutation(() => Boolean)
-//   async deletePost(
-//     @Arg('id') id: number,
-//     @Ctx() { em }: MyContext
-//   ): Promise<boolean> {
-//     try {
-//       em.nativeDelete(Post, { id });
-//       return true;
-//     } catch (err) {
-//       return false;
-//     }
-//   }
-// }
+  Mutation: {
+    // Create a post
+    createPost: async (
+      _: void,
+      { content }: Args,
+      { em }: MyContext
+    ): Promise<Post> => {
+      const post = em.create(Post, { content });
+      await em.persistAndFlush(post);
+      return post;
+    },
+
+    // Delete a post
+    deletePost: async (
+      _: void,
+      { id }: Args,
+      { em }: MyContext
+    ): Promise<boolean> => {
+      try {
+        em.nativeDelete(Post, { id });
+        return true;
+      } catch (err) {
+        return false;
+      }
+    },
+  },
+
+  /*************************  *************************/
+};
