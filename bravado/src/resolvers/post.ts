@@ -1,5 +1,5 @@
-import { Post } from '../entities';
-import { MyContext, Args } from '../types';
+import { Post } from '../models';
+import { Args } from '../types';
 
 import { IResolvers } from 'apollo-server-express';
 
@@ -8,13 +8,13 @@ const resolvers: IResolvers = {
 
   Query: {
     // Get all posts
-    posts: (_: void, __: void, { em }: MyContext): Promise<Post[]> => {
-      return em.find(Post, {});
+    posts: () => {
+      return Post.find();
     },
 
     // Get a post
-    post: (_: void, { id }: Args, { em }: MyContext): Promise<Post | null> => {
-      return em.findOne(Post, { id });
+    post: (_: void, { id }: Args) => {
+      return Post.findOne({ id });
     },
   },
 
@@ -22,24 +22,15 @@ const resolvers: IResolvers = {
 
   Mutation: {
     // Create a post
-    createPost: async (
-      _: void,
-      { content }: Args,
-      { em }: MyContext
-    ): Promise<Post> => {
-      const post = em.create(Post, { content });
-      await em.persistAndFlush(post);
+    createPost: async (_: void, { content }: Args) => {
+      const post = Post.create({ content });
       return post;
     },
 
     // Delete a post
-    deletePost: async (
-      _: void,
-      { id }: Args,
-      { em }: MyContext
-    ): Promise<boolean> => {
+    deletePost: async (_: void, { id }: Args): Promise<boolean> => {
       try {
-        em.nativeDelete(Post, { id });
+        Post.findOneAndDelete({ id });
         return true;
       } catch (err) {
         return false;

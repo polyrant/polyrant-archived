@@ -1,20 +1,16 @@
 import { IResolvers } from 'apollo-server-express';
 import argon2 from 'argon2';
 
-import { User } from '../entities';
+import { User } from '../models';
 
-import { MyContext, UserInput, UserResponse } from '../types';
+import { UserInput, UserResponse } from '../types';
 
 const resolvers: IResolvers = {
   /************************* Mutations *************************/
 
   Mutation: {
     // Register a user
-    register: async (
-      _: void,
-      input: UserInput,
-      { em }: MyContext
-    ): Promise<UserResponse> => {
+    register: async (_: void, input: UserInput): Promise<UserResponse> => {
       if (input.username.trim().length < 3)
         return {
           errors: [
@@ -36,24 +32,24 @@ const resolvers: IResolvers = {
         };
 
       const hashedPass = await argon2.hash(input.password);
-      const user = em.create(User, {
+
+      const user = new User({
         username: input.username,
         password: hashedPass,
+        createdAt: Date.now(),
       });
 
       try {
-        await em.persistAndFlush(user);
+        await user.save();
       } catch (err) {
-        if (err.code === '23505') {
-          return {
-            errors: [
-              {
-                field: 'Username',
-                message: 'Username already exists!',
-              },
-            ],
-          };
-        }
+        return {
+          errors: [
+            {
+              field: 'Username',
+              message: 'Username already exists!',
+            },
+          ],
+        };
       }
 
       return {
@@ -62,12 +58,8 @@ const resolvers: IResolvers = {
     },
 
     // Log in a user
-    login: async (
-      _: void,
-      input: UserInput,
-      { em }: MyContext
-    ): Promise<UserResponse> => {
-      const user = await em.findOne(User, {
+    login: async (_: void, input: UserInput): Promise<UserResponse> => {
+      const user = await User.findOne({
         username: input.username.toLowerCase(),
       });
 

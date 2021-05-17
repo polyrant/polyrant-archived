@@ -1,10 +1,3 @@
-import { EntityManager, IDatabaseDriver, Connection } from '@mikro-orm/core';
-import { User } from './entities';
-
-export type MyContext = {
-  em: EntityManager<IDatabaseDriver<Connection>>;
-};
-
 export type Args = {
   id?: number;
   content?: string;
@@ -23,5 +16,5 @@ export type UserResponse = {
       message?: string;
     }
   ];
-  user?: User;
+  user?: any;
 };
