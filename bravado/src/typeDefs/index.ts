@@ -12,7 +12,7 @@ export default gql`
   }
 
   type UserResponse {
-    errors: [FieldError]!
+    errors: [FieldError]
     user: User
   }
 
@@ -36,14 +36,14 @@ export default gql`
     ping: String!
 
     posts: [Post]!
-    post: Post
+    post(id: String!): Post
   }
 
   type Mutation {
-    createPost: Post!
-    deletePost: Boolean!
+    createPost(content: String!): Post!
+    deletePost(id: String!): Boolean!
 
-    register: UserResponse!
-    login: UserResponse!
+    register(input: UserInput!): UserResponse!
+    login(input: UserInput!): UserResponse!
   }
 `;

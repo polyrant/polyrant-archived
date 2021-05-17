@@ -1,12 +1,14 @@
-import { Post } from 'src/entities';
+import { Post } from '../entities';
 import { MyContext, Args } from '../types';
 
-export default {
+import { IResolvers } from 'apollo-server-express';
+
+const resolvers: IResolvers = {
   /************************* Queries *************************/
 
   Query: {
     // Get all posts
-    posts: async (_: void, __: void, { em }: MyContext): Promise<Post[]> => {
+    posts: (_: void, __: void, { em }: MyContext): Promise<Post[]> => {
       return em.find(Post, {});
     },
 
@@ -47,3 +49,5 @@ export default {
 
   /*************************  *************************/
 };
+
+export default resolvers;

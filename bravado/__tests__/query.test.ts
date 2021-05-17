@@ -21,7 +21,7 @@ const POSTS = gql`
 
 const POST = gql`
   {
-    post(id: 1) {
+    post(id: "1") {
       content
     }
   }

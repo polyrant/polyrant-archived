@@ -15,7 +15,7 @@ const CREATE_POST = gql`
 
 const DELETE_POST = gql`
   mutation {
-    deletePost(id: 1)
+    deletePost(id: "1")
   }
 `;
 
