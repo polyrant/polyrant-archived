@@ -2,7 +2,10 @@ import 'reflect-metadata';
 require('dotenv').config();
 
 import { ApolloServer } from 'apollo-server-express';
+import compression from 'compression';
+import cors from 'cors';
 import express from 'express';
+import depthLimit from 'graphql-depth-limit';
 import { MikroORM } from '@mikro-orm/core';
 
 import ormConfig from '../mikro-orm.config';
@@ -18,10 +21,18 @@ const main = async () => {
 
   const app = express();
 
+  app.use(
+    cors({
+      origin: '*', // TODO: Update for prod
+    })
+  );
+  app.use(compression());
+
   const apollo = new ApolloServer({
     resolvers,
     typeDefs,
     context: () => ({ em: orm.em }),
+    validationRules: [depthLimit(7)],
   });
 
   apollo.applyMiddleware({ app });
