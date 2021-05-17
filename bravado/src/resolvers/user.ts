@@ -12,36 +12,8 @@
 // import { User } from '../entities';
 // import { MyContext } from '../types';
 
-// @InputType()
-// class UserInput {
-//   @Field()
-//   username!: string;
-
-//   @Field()
-//   password!: string;
-// }
-
-// @ObjectType()
-// class FieldError {
-//   @Field()
-//   field: string;
-
-//   @Field()
-//   message: string;
-// }
-
-// @ObjectType()
-// class UserResponse {
-//   @Field(() => [FieldError], { nullable: true })
-//   errors?: FieldError[];
-
-//   @Field(() => User, { nullable: true })
-//   user?: User;
-// }
-
 // @Resolver()
 // export class UserResolver {
-//   @Mutation(() => UserResponse)
 //   async register(
 //     @Arg('input') input: UserInput,
 //     @Ctx() { em }: MyContext
@@ -92,7 +64,6 @@
 //     };
 //   }
 
-//   @Mutation(() => UserResponse)
 //   async login(
 //     @Arg('input') input: UserInput,
 //     @Ctx() { em }: MyContext

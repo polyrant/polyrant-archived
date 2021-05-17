@@ -1,9 +1,9 @@
 import { ApolloServer } from 'apollo-server-express';
 import { createTestClient } from 'apollo-server-testing';
 import gql from 'graphql-tag';
-import { buildSchema } from 'type-graphql';
 
-import { PingResolver, PostResolver, UserResolver } from '../src/resolvers';
+import resolvers from '../src/resolvers';
+import typeDefs from '../src/typeDefs';
 
 const CREATE_POST = gql`
   mutation {
@@ -57,9 +57,8 @@ const LOGIN = gql`
 
 const server = async () => {
   const server = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [PingResolver, PostResolver, UserResolver],
-    }),
+    resolvers,
+    typeDefs,
     mockEntireSchema: true,
     mocks: true,
   });
