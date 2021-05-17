@@ -4,10 +4,11 @@ require('dotenv').config();
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { MikroORM } from '@mikro-orm/core';
-import { buildSchema } from 'type-graphql';
 
 import ormConfig from '../mikro-orm.config';
-import { PingResolver, PostResolver, UserResolver } from './resolvers';
+
+import resolvers from './resolvers';
+import typeDefs from './typeDefs';
 
 const main = async () => {
   const { SERVER_URI, PORT } = process.env;
@@ -18,10 +19,8 @@ const main = async () => {
   const app = express();
 
   const apollo = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [PingResolver, PostResolver, UserResolver],
-      validate: false,
-    }),
+    resolvers,
+    typeDefs,
     context: () => ({ em: orm.em }),
   });
 

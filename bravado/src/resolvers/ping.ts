@@ -1,9 +1,7 @@
-import { Query, Resolver } from 'type-graphql';
-
-@Resolver()
-export class PingResolver {
-  @Query(() => String)
-  ping() {
-    return 'Pong!';
-  }
-}
+export default {
+  Query: {
+    ping: async (): Promise<string> => {
+      return 'Pong!';
+    },
+  },
+};

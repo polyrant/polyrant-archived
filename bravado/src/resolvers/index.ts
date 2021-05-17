@@ -1,3 +1,7 @@
-export { PostResolver } from './post';
-export { PingResolver } from './ping';
-export { UserResolver } from './user';
+import pingResolvers from './ping';
+
+export default {
+  Query: {
+    ...pingResolvers.Query,
+  },
+};
